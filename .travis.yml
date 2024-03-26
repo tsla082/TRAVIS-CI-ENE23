@@ -1,31 +1,22 @@
-
-#ARQUITECTO DEVOPS 
-#===========================================================================================
-#https://github.com/vargaschinofranco/TRAVIS-CI-ENE23
-#https://notepad.pw/code/xQQubLVDddg0QHzsy3sq
- 
-#==================================================
 language: csharp
 mono: none
-dist: focal
+sudo: required
+dist: xenial
 dotnet: 6.0.202
 branches:
   only:
     - master
- 
-before_install:
-  - sudo apt-get update
-  - sudo apt-get install -y python3.8 python3.8-distutils
-  - curl -O https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-458.0.1-linux-x86_64.tar.gz
-  - tar -xzf google-cloud-cli-458.0.1-linux-x86_64.tar.gz
-  - PATH="${PWD}/google-cloud-sdk/bin:${PATH}"  # Agrega el directorio del SDK al PATH
-  - ./google-cloud-sdk/install.sh -q
+#    - develop
+script:
+  - dotnet build
+  - dotnet test
+# [START travis_deploy]
 deploy:
     provider: gae
     # Skip cleanup so api_key.py and vendored dependencies are still there
     skip_cleanup: true
     keyfile: devopsene23-351ad42ddd85.json
-    project: accountstest
+    project: devopsene23
     version: service-demo
     default: true
     on:
